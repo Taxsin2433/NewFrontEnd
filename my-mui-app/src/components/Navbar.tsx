@@ -32,10 +32,10 @@ const Navbar: FC = observer((): ReactElement => {
     try {
       await userStore.logout();
       handleCloseNavMenu();
-      // Добавьте здесь дополнительные действия после успешного выхода
+   
     } catch (error) {
       console.error('Error during logout:', error);
-      // Добавьте здесь дополнительные действия в случае ошибки выхода
+      
     }
   };
 
