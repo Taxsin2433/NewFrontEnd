@@ -1,3 +1,5 @@
+// Navbar.tsx
+
 import React, { FC, ReactElement } from "react";
 import {
   Box,
@@ -12,8 +14,10 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import { routes } from "../routes";
 import { NavLink } from "react-router-dom";
+import { observer } from 'mobx-react-lite';
+import userStore from '../userStore';
 
-const Navbar: FC = (): ReactElement => {
+const Navbar: FC = observer((): ReactElement => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
   const handleOpenNavMenu = (event: any) => {
@@ -22,6 +26,17 @@ const Navbar: FC = (): ReactElement => {
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await userStore.logout();
+      handleCloseNavMenu();
+      // Добавьте здесь дополнительные действия после успешного выхода
+    } catch (error) {
+      console.error('Error during logout:', error);
+      // Добавьте здесь дополнительные действия в случае ошибки выхода
+    }
   };
 
   return (
@@ -120,12 +135,23 @@ const Navbar: FC = (): ReactElement => {
                   {page.title}
                 </Link>
               ))}
+              {userStore.currentUser && 'token' in userStore.currentUser && (userStore.currentUser as any).token && (
+                <Link
+                  onClick={handleSignOut}
+                  color="black"
+                  underline="none"
+                  variant="button"
+                  sx={{ fontSize: "large", marginLeft: "2rem", cursor: 'pointer' }}
+                >
+                  Sign Out
+                </Link>
+              )}
             </Box>
           </Box>
         </Toolbar>
       </Container>
     </Box>
   );
-};
+});
 
 export default Navbar;

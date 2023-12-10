@@ -3,9 +3,12 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Products from "./pages/Products";
 import ApiTest from "./pages/ApiTest";
+import LoginPage from "./pages/LoginPage";
+import RegistrationPage from "./pages/RegistrationPage";
 
 // other
 import {FC} from "react";
+
 
 
 // interface
@@ -45,5 +48,19 @@ export const routes: Array<Route> = [
         path: '/apitest',
         enabled: true,
         component: ApiTest
+    },
+    {
+        key: 'login-route',
+        title: 'Login',
+        path: '/login',
+        enabled: true,
+        component: LoginPage
+    },
+    {
+        key: 'Redistration-route',
+        title: 'Registration',
+        path: '/Registration',
+        enabled: true,
+        component: RegistrationPage
     }
 ]
