@@ -35,7 +35,7 @@ namespace Catalog.Host.Services
             return new PaginatedItems<CatalogItemDto>
             {
                 Count = result.TotalCount,
-                Data = result.Data.Select(s => _mapper.Map<CatalogItemDto>(s)).ToList(),
+                Data = result.Data?.Select(s => _mapper.Map<CatalogItemDto>(s)).ToList(),
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
@@ -63,7 +63,7 @@ namespace Catalog.Host.Services
             return new PaginatedItems<CatalogItemDto>
             {
                 Count = result.TotalCount,
-                Data = result.Data.Select(s => _mapper.Map<CatalogItemDto>(s)).ToList(),
+                Data = result.Data?.Select(s => _mapper.Map<CatalogItemDto>(s)).ToList(),
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
@@ -75,7 +75,7 @@ namespace Catalog.Host.Services
             return new PaginatedItems<CatalogItemDto>
             {
                 Count = result.TotalCount,
-                Data = result.Data.Select(s => _mapper.Map<CatalogItemDto>(s)).ToList(),
+                Data = result.Data?.Select(s => _mapper.Map<CatalogItemDto>(s)).ToList(),
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
@@ -83,7 +83,7 @@ namespace Catalog.Host.Services
 
         public async Task<int?> AddCatalogItemAsync(AddCatalogItemRequest request)
         {
-            return await _catalogItemRepository.AddAsync(request));
+            return await _catalogItemRepository.AddAsync(request.Name!, request.Description!, request.Price, request.AvailableStock, request.CatalogBrandId, request.CatalogTypeId, request.PictureFileName!);
         }
 
         public async Task<bool> UpdateCatalogItemAsync(int id, UpdateCatalogItemRequest request)
@@ -91,16 +91,16 @@ namespace Catalog.Host.Services
             var catalogItem = await _catalogItemRepository.GetByIdAsync(id);
             if (catalogItem == null)
             {
-                return false; // Item not found
+                return false;
             }
 
-            catalogItem.Name = request.Name;
-            catalogItem.Description = request.Description;
+            catalogItem.Name = request.Name!;
+            catalogItem.Description = request.Description!;
             catalogItem.Price = request.Price;
             catalogItem.AvailableStock = request.AvailableStock;
             catalogItem.CatalogBrandId = request.CatalogBrandId;
             catalogItem.CatalogTypeId = request.CatalogTypeId;
-            catalogItem.PictureFileName = request.PictureFileName;
+            catalogItem.PictureFileName = request.PictureFileName!;
 
             return await _catalogItemRepository.UpdateAsync(catalogItem);
         }

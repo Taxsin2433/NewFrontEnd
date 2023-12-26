@@ -12,6 +12,10 @@ public class ApplicationDbContext : DbContext
     {
     }
 
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : this(options)
+    {
+    }
+
     public DbSet<CatalogItem> CatalogItems { get; set; }
     public DbSet<CatalogBrand> CatalogBrands { get; set; }
     public DbSet<CatalogType> CatalogTypes { get; set; }
