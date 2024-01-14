@@ -1,11 +1,11 @@
-﻿using System.IO;
-using IdentityServer4.Quickstart.UI;
-using IdentityServer4.Services;
+﻿using IdentityServer4.Quickstart.UI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using System.IO;
+using Infrastructure.RateLimit;
+
 
 namespace IdentityServer
 {
@@ -43,6 +43,14 @@ namespace IdentityServer
             app.UseAuthorization();
             
             app.UseEndpoints(endpoints => endpoints.MapDefaultControllerRoute());
+        }
+        public void ConfigureLimit(IApplicationBuilder app)
+        {
+           
+
+            app.UseRateLimiter();
+
+       
         }
     }
 }

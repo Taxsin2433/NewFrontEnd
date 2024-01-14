@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Basket.Host.Controllers
 {
@@ -16,27 +18,28 @@ namespace Basket.Host.Controllers
             _logger = logger;
         }
 
+        [RateLimit]
         [HttpGet("anonymous")]
         [AllowAnonymous]
         public IActionResult AnonymousMethod()
         {
-            // Log any test message for anonymous access
+           
             _logger.LogInformation("Anonymous method executed successfully");
             return Ok("Anonymous method executed successfully");
         }
 
+        [RateLimit]
         [HttpGet("defended")]
         public IActionResult DefendedMethod()
         {
-            // Read "user id" from the incoming request and log it
+        
             string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            // Log the user ID
             _logger.LogInformation($"Defended method executed successfully. User ID: {userId}");
-
             return Ok($"Defended method executed successfully. User ID: {userId}");
         }
     }
+
+    [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = false)]
+    public class RateLimitAttribute : Attribute { } 
 }
-    
 

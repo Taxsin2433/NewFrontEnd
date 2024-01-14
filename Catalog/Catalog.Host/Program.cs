@@ -5,6 +5,7 @@ using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services;
 using Catalog.Host.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.RateLimit;
 
 var configuration = GetConfiguration();
 
@@ -19,6 +20,9 @@ builder.Services.AddTransient<ICatalogService, CatalogService>();
 
 builder.Services.AddDbContextFactory<ApplicationDbContext>(opts => opts.UseNpgsql(configuration["ConnectionString"]));
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
+
+// Добавьте использование Middleware прямо здесь
+builder.Services.UseRateLimiter();
 
 var app = builder.Build();
 

@@ -8,6 +8,7 @@ namespace Basket.Host.Controllers
     [ApiController]
     public class BasketApiController : ControllerBase
     {
+        [RateLimit]
         public Task<IActionResult> AddItem() 
         {
             return Ok(result);
